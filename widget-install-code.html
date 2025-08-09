@@ -1,0 +1,55 @@
+<div id="fortuneCookieWidget" style="cursor: pointer;">
+    <h4>🥠 오늘의 포춘쿠키</h4>
+    <p>쿠키를 눌러서 열어보세요!</p>
+  </div>
+  
+  <style>
+    #fortuneCookieWidget {
+      background-color: #fff8e1; /* 쿠키 느낌의 연한 노란색 */
+      border: 2px dashed #e6c56e; /* 점선 테두리 */
+      border-radius: 12px;
+      padding: 20px; margin-bottom: 20px; text-align: center;
+      font-family: 'KyoboHandwriting2020', 'Noto Sans KR', sans-serif; /* 손글씨 폰트 */
+      transition: transform 0.2s ease;
+    }
+    #fortuneCookieWidget:hover {
+      transform: scale(1.03); /* 마우스를 올리면 살짝 커지는 효과 */
+    }
+    #fortuneCookieWidget h4 {
+      margin: 0 0 10px 0; font-size: 17px; color: #b08c3a;
+    }
+    #fortuneCookieWidget p {
+      font-size: 15px; color: #7b6d51; line-height: 1.6; margin: 0;
+    }
+  </style>
+  
+  <script>
+  (function() {
+    const widget = document.getElementById('fortuneCookieWidget');
+    const messageP = widget.querySelector('p');
+    let isLoading = false;
+  
+    const getFortune = () => {
+      if (isLoading) return;
+      isLoading = true;
+      messageP.textContent = '쿠키를 여는 중...';
+  
+      // Vercel 배포 후 얻게 될 실제 주소로 바꿔야 합니다.
+      const API_URL = 'https://내-프로젝트-이름.vercel.app/api/cookie';
+  
+      fetch(API_URL)
+        .then(response => response.json())
+        .then(data => {
+          messageP.textContent = data.message;
+          isLoading = false;
+        })
+        .catch(error => {
+          console.error('Widget Error:', error);
+          messageP.textContent = '쿠키가 바삭하지 않네요! 다시 눌러주세요.';
+          isLoading = false;
+        });
+    };
+  
+    widget.addEventListener('click', getFortune);
+  })();
+  </script>
