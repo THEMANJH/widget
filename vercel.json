@@ -1,0 +1,13 @@
+{
+    "functions": {
+      "api/cookie.js": {
+        "runtime": "nodejs18.x"
+      }
+    },
+    "routes": [
+      {
+        "src": "/api/cookie",
+        "dest": "/api/cookie.js"
+      }
+    ]
+  }
