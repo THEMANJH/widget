@@ -2,7 +2,7 @@
 (function() {
     // 1. 설정: 당신의 Vercel API 주소
     const API_URL = 'https://widget-seven-taupe.vercel.app/api/cookie'; 
-    const CSS_URL = 'https://widget-seven-taupe.vercel.app/api/cookie';
+    const CSS_URL = 'https://widget-seven-taupe.vercel.app/widget.css';
   
     // 2. CSS 파일을 동적으로 불러오기
     const link = document.createElement('link');
