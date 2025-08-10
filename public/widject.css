@@ -1,0 +1,14 @@
+/* public/widget.css */
+#fortuneCookieWidget {
+    background-color: #fff8e1;
+    border: 2px dashed #e6c56e;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'KyoboHandwriting2020', 'Noto Sans KR', sans-serif;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* ... (나머지 CSS 내용) ... */
