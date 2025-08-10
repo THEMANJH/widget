@@ -3,6 +3,16 @@ const fortunes = require('../fortunes.json');
 
 // Vercel 서버에서 실행될 기본 함수입니다.
 module.exports = (req, res) => {
+  // CORS 허용 헤더 추가
+  res.setHeader('Access-Control-Allow-Origin', '*'); // 모든 도메인 허용
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // OPTIONS 요청일 경우 바로 종료 (Preflight 요청 대응)
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   try {
     // 랜덤으로 메시지를 선택합니다.
     const randomIndex = Math.floor(Math.random() * fortunes.length);
