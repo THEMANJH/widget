@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>포춘쿠키 위젯 - 블로그에 행운을 더하세요</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #fff8e1 0%, #f3e5ab 100%);
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            color: #b08c3a;
+            margin-bottom: 20px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #7b6d51;
+            margin-bottom: 40px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: #e6c56e;
+            color: #b08c3a;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: transform 0.2s ease;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .features {
+            padding: 80px 0;
+            background: #fff;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .demo {
+            background: #f8f9fa;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .widget-demo {
+            background-color: #fff8e1;
+            border: 2px dashed #e6c56e;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px auto;
+            max-width: 400px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .widget-demo:hover {
+            transform: scale(1.03);
+        }
+        
+        .pricing {
+            padding: 80px 0;
+            background: #fff;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .pricing-card {
+            border: 2px solid #e6c56e;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .pricing-card.popular {
+            border-color: #b08c3a;
+            transform: scale(1.05);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #b08c3a;
+            color: white;
+            padding: 5px 20px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .price {
+            font-size: 2.5rem;
+            color: #b08c3a;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .setup {
+            background: #f8f9fa;
+            padding: 80px 0;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: 'Monaco', 'Consolas', monospace;
+            overflow-x: auto;
+        }
+        
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 40px 0;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .container { padding: 0 15px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🥠 포춘쿠키 위젯</h1>
+            <p class="subtitle">한 줄의 코드로 블로그에 행운을 더하세요</p>
+            <a href="#pricing" class="cta-button">지금 시작하기</a>
+        </div>
+    </header>
+
+    <section class="features">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 2.5rem; color: #b08c3a;">왜 포춘쿠키 위젯인가요?</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>초간단 설치</h3>
+                    <p>한 줄의 코드만 복사해서 붙여넣으면 끝! 5초 만에 설치 완료</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>예쁜 디자인</h3>
+                    <p>블로그와 자연스럽게 어울리는 귀여운 쿠키 디자인</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>반응형 지원</h3>
+                    <p>PC, 모바일, 태블릿 모든 기기에서 완벽하게 작동</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>한국어 메시지</h3>
+                    <p>따뜻하고 재미있는 한국어 포춘 메시지 18개</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>실시간 업데이트</h3>
+                    <p>클릭할 때마다 새로운 메시지로 변경</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>사용량 통계</h3>
+                    <p>대시보드에서 위젯 사용량을 실시간으로 확인</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="demo">
+        <div class="container">
+            <h2 style="font-size: 2.5rem; color: #b08c3a; margin-bottom: 20px;">실제로 체험해보세요!</h2>
+            <p>아래 위젯을 클릭해보세요</p>
+            
+            <div class="widget-demo" onclick="demoFortune()">
+                <h4 style="color: #b08c3a; margin-bottom: 10px;">🥠 오늘의 포춘쿠키</h4>
+                <p id="demo-message" style="color: #7b6d51;">쿠키를 눌러서 열어보세요!</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 2.5rem; color: #b08c3a;">간단한 요금제</h2>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Free</h3>
+                    <div class="price">₀<span style="font-size: 1rem;">/월</span></div>
+                    <ul style="text-align: left; margin: 20px 0;">
+                        <li>✅ 월 1,000회 요청</li>
+                        <li>✅ 기본 메시지 18개</li>
+                        <li>✅ 커뮤니티 지원</li>
+                        <li>❌ 커스텀 메시지</li>
+                    </ul>
+                    <button onclick="signup('free')" class="cta-button" style="width: 100%;">무료 시작</button>
+                </div>
+                
+                <div class="pricing-card popular">
+                    <div class="popular-badge">인기</div>
+                    <h3>Pro</h3>
+                    <div class="price">₉,900<span style="font-size: 1rem;">/월</span></div>
+                    <ul style="text-align: left; margin: 20px 0;">
+                        <li>✅ 월 10,000회 요청</li>
+                        <li>✅ 커스텀 메시지 추가</li>
+                        <li>✅ 5가지 테마</li>
+                        <li>✅ 이메일 지원</li>
+                    </ul>
+                    <button onclick="signup('pro')" class="cta-button" style="width: 100%;">Pro 시작</button>
+                </div>
+                
+                <div class="pricing-card">
+                    <h3>Premium</h3>
+                    <div class="price">₁9,900<span style="font-size: 1rem;">/월</span></div>
+                    <ul style="text-align: left; margin: 20px 0;">
+                        <li>✅ 월 100,000회 요청</li>
+                        <li>✅ 무제한 커스텀 메시지</li>
+                        <li>✅ 무제한 테마</li>
+                        <li>✅ 우선 지원</li>
+                    </ul>
+                    <button onclick="signup('premium')" class="cta-button" style="width: 100%;">Premium 시작</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="setup">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 2.5rem; color: #b08c3a;">설치 방법</h2>
+            
+            <div style="max-width: 800px; margin: 0 auto; text-align: left;">
+                <h3>1. 회원가입 후 API 키 받기</h3>
+                <p>위의 요금제에서 원하는 플랜을 선택하고 회원가입하세요.</p>
+                
+                <h3 style="margin-top: 30px;">2. 코드 복사하기</h3>
+                <p>대시보드에서 아래와 같은 코드를 복사하세요:</p>
+                
+                <div class="code-block">
+&lt;script&gt;
+(function() {
+  const script = document.createElement('script');
+  script.src = 'https://widget-seven-taupe.vercel.app/public/loader.js';
+  script.setAttribute('data-api-key', 'YOUR_API_KEY_HERE');
+  document.head.appendChild(script);
+})();
+&lt;/script&gt;
+                </div>
+                
+                <h3 style="margin-top: 30px;">3. 블로그에 붙여넣기</h3>
+                <p><strong>티스토리:</strong> 관리 → 꾸미기 → 스킨 편집 → HTML 편집에서 &lt;/body&gt; 태그 위에 붙여넣기</p>
+                <p><strong>네이버 블로그:</strong> 블로그 관리 → 디자인 설정 → 레이아웃/위젯 설정에서 HTML 위젯 추가</p>
+                <p><strong>기타 블로그:</strong> HTML 편집이 가능한 곳 어디든 붙여넣기</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 포춘쿠키 위젯. 모든 권리 보유.</p>
+            <p>문의: support@fortunecookie-widget.com</p>
+        </div>
+    </footer>
+
+    <script>
+        const demoMessages = [
+            "생각지도 못한 곳에서 좋은 소식이 들려올 거예요.",
+            "오늘은 망설이지 말고 과감하게 도전해 보세요. 결과가 좋을 거예요.",
+            "주변 사람들에게 따뜻한 말 한마디를 건네보세요. 행운이 배가 됩니다.",
+            "새로운 인연이 찾아올 예감이 드네요. 마음의 문을 활짝 여세요."
+        ];
+        
+        function demoFortune() {
+            const messageEl = document.getElementById('demo-message');
+            messageEl.textContent = '쿠키를 여는 중...';
+            
+            setTimeout(() => {
+                const randomMessage = demoMessages[Math.floor(Math.random() * demoMessages.length)];
+                messageEl.textContent = randomMessage;
+            }, 500);
+        }
+        
+        function signup(plan) {
+            // 실제로는 회원가입 페이지로 이동
+            alert(`${plan} 플랜 회원가입 페이지로 이동합니다!`);
+            // window.location.href = `/signup?plan=${plan}`;
+        }
+    </script>
+</body>
+</html>

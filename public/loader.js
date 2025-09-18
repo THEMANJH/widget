@@ -1,7 +1,11 @@
-// public/loader.js (All-in-One 최종본)
+// public/loader.js (API Key 인증 버전)
 (function() {
   // 1. 설정
   const API_URL = 'https://widget-seven-taupe.vercel.app/api/cookie';
+  
+  // 스크립트 태그에서 API 키 가져오기
+  const currentScript = document.currentScript || document.querySelector('script[data-api-key]');
+  const API_KEY = currentScript ? currentScript.getAttribute('data-api-key') : null;
 
   // 2. CSS 내용을 자바스크립트 변수 안에 저장
   const cssStyles = `
@@ -50,15 +54,31 @@
   // 5. 포춘쿠키 가져오기 로직
   const messageParagraph = widgetContainer.querySelector('p');
   let isLoading = false;
+  
   const fetchFortune = () => {
     if (isLoading) return;
+    
+    // API 키 확인
+    if (!API_KEY) {
+      messageParagraph.innerHTML = '⚠️ API 키가 필요합니다. <a href="https://widget-seven-taupe.vercel.app" target="_blank">여기서 발급받으세요</a>';
+      return;
+    }
+    
     isLoading = true;
     messageParagraph.textContent = '쿠키를 여는 중...';
 
-    fetch(API_URL)
+    fetch(API_URL, {
+      headers: {
+        'X-API-Key': API_KEY
+      }
+    })
       .then(response => response.json())
       .then(data => {
-        messageParagraph.textContent = data.message;
+        if (data.error) {
+          messageParagraph.innerHTML = `⚠️ ${data.error} <a href="https://widget-seven-taupe.vercel.app/dashboard" target="_blank">대시보드 확인</a>`;
+        } else {
+          messageParagraph.textContent = data.message;
+        }
         isLoading = false;
       })
       .catch(error => {

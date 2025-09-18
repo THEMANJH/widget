@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>위젯 테스트 페이지</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .sidebar {
+            width: 300px;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            float: right;
+            margin-left: 20px;
+        }
+        .content {
+            margin-right: 340px;
+        }
+        .api-key-input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #e6c56e;
+            border-radius: 5px;
+        }
+        .test-btn {
+            background: #e6c56e;
+            color: #b08c3a;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>🥠 포춘쿠키 위젯 테스트</h1>
+    
+    <div class="sidebar">
+        <h3>사이드바 영역</h3>
+        <p>위젯이 여기에 표시됩니다.</p>
+        <!-- 위젯이 여기에 자동으로 추가됩니다 -->
+    </div>
+    
+    <div class="content">
+        <div class="test-section">
+            <h2>1. API 키 설정</h2>
+            <p>대시보드에서 발급받은 API 키를 입력하세요:</p>
+            <input type="text" id="apiKeyInput" class="api-key-input" placeholder="fck_your_api_key_here">
+            <button onclick="loadWidget()" class="test-btn">위젯 로드</button>
+        </div>
+        
+        <div class="test-section">
+            <h2>2. 테스트 방법</h2>
+            <ol>
+                <li>메인 페이지에서 회원가입</li>
+                <li>대시보드에서 API 키 생성</li>
+                <li>위 입력창에 API 키 입력</li>
+                <li>"위젯 로드" 버튼 클릭</li>
+                <li>오른쪽 사이드바의 위젯 클릭해보기</li>
+            </ol>
+        </div>
+        
+        <div class="test-section">
+            <h2>3. 설치 코드</h2>
+            <p>실제 블로그에 설치할 때는 아래 코드를 사용하세요:</p>
+            <pre style="background: #2d3748; color: #e2e8f0; padding: 15px; border-radius: 5px; overflow-x: auto;"><code id="installCode">API 키를 먼저 입력하세요.</code></pre>
+        </div>
+    </div>
+
+    <script>
+        function loadWidget() {
+            const apiKey = document.getElementById('apiKeyInput').value;
+            
+            if (!apiKey) {
+                alert('API 키를 입력해주세요.');
+                return;
+            }
+            
+            // 기존 위젯 제거
+            const existingWidget = document.getElementById('fortuneCookieWidget');
+            if (existingWidget) {
+                existingWidget.remove();
+            }
+            
+            // 새 위젯 로드
+            const script = document.createElement('script');
+            script.src = window.location.origin + '/public/loader.js';
+            script.setAttribute('data-api-key', apiKey);
+            document.head.appendChild(script);
+            
+            // 설치 코드 업데이트
+            const installCode = `<script>
+(function() {
+  const script = document.createElement('script');
+  script.src = '${window.location.origin}/public/loader.js';
+  script.setAttribute('data-api-key', '${apiKey}');
+  document.head.appendChild(script);
+})();
+</script>`;
+            
+            document.getElementById('installCode').textContent = installCode;
+        }
+    </script>
+</body>
+</html>

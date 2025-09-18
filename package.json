@@ -1,5 +1,16 @@
 {
     "name": "fortune-cookie-widget-server",
     "version": "1.0.0",
-    "private": true
-  }
+    "private": true,
+    "scripts": {
+        "dev": "vercel dev",
+        "build": "echo 'No build step needed'",
+        "deploy": "vercel --prod"
+    },
+    "dependencies": {
+        "@supabase/supabase-js": "^2.55.0"
+    },
+    "devDependencies": {
+        "vercel": "^32.7.2"
+    }
+}

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대시보드 - 포춘쿠키 위젯</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: #f8f9fa;
+            color: #333;
+        }
+        
+        .header {
+            background: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #b08c3a;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .main-content {
+            padding: 40px 0;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .card h3 {
+            color: #b08c3a;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #e6c56e;
+            margin-bottom: 10px;
+        }
+        
+        .progress-bar {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #e6c56e, #b08c3a);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        
+        .api-key-section {
+            grid-column: 1 / -1;
+        }
+        
+        .api-key-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .api-key-code {
+            font-family: 'Monaco', 'Consolas', monospace;
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+        
+        .btn {
+            background: #e6c56e;
+            color: #b08c3a;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s ease;
+        }
+        
+        .btn:hover {
+            background: #b08c3a;
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">🥠 포춘쿠키 위젯</div>
+                <div class="user-info">
+                    <span id="user-email">로딩중...</span>
+                    <button class="btn" onclick="logout()">로그아웃</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div id="alert-container"></div>
+            
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>📊 이번 달 사용량</h3>
+                    <div class="stat-number" id="current-usage">-</div>
+                    <div>/ <span id="usage-limit">-</span> 요청</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="usage-progress"></div>
+                    </div>
+                    <p>현재 플랜: <strong id="current-plan">-</strong></p>
+                </div>
+                
+                <div class="card">
+                    <h3>🔑 활성 API 키</h3>
+                    <div class="stat-number" id="active-keys">-</div>
+                    <div>개의 키가 활성화됨</div>
+                    <button class="btn" onclick="showCreateKeyModal()" style="margin-top: 20px; width: 100%;">
+                        새 API 키 생성
+                    </button>
+                </div>
+                
+                <div class="card api-key-section">
+                    <h3>🔐 API 키 관리</h3>
+                    <div id="api-keys-list">
+                        로딩중...
+                    </div>
+                </div>
+                
+                <div class="card api-key-section">
+                    <h3>📝 설치 코드</h3>
+                    <p>아래 코드를 복사해서 블로그에 붙여넣으세요:</p>
+                    <div class="api-key-code" id="install-code">
+API 키를 먼저 생성해주세요.
+                    </div>
+                    <button class="btn" onclick="copyInstallCode()">코드 복사</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- API 키 생성 모달 -->
+    <div id="create-key-modal" class="modal">
+        <div class="modal-content">
+            <h3>새 API 키 생성</h3>
+            <form onsubmit="createApiKey(event)">
+                <div class="form-group">
+                    <label for="key-name">키 이름</label>
+                    <input type="text" id="key-name" placeholder="예: 메인 블로그" required>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" class="btn">생성</button>
+                    <button type="button" class="btn" onclick="closeModal()">취소</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let apiKeys = [];
+        
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+        });
+        
+        function checkAuth() {
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                window.location.href = '/login.html';
+                return;
+            }
+            
+            // 사용자 정보 로드
+            loadUserData();
+            loadApiKeys();
+        }
+        
+        async function loadUserData() {
+            // 실제로는 API에서 사용자 정보를 가져와야 함
+            const userEmail = localStorage.getItem('user_email') || 'user@example.com';
+            document.getElementById('user-email').textContent = userEmail;
+            
+            // 임시 데이터 (실제로는 API에서 가져와야 함)
+            updateUsageStats(150, 1000, 'Free');
+        }
+        
+        function updateUsageStats(current, limit, plan) {
+            document.getElementById('current-usage').textContent = current.toLocaleString();
+            document.getElementById('usage-limit').textContent = limit.toLocaleString();
+            document.getElementById('current-plan').textContent = plan;
+            
+            const percentage = (current / limit) * 100;
+            document.getElementById('usage-progress').style.width = percentage + '%';
+        }
+        
+        async function loadApiKeys() {
+            try {
+                // 실제로는 API에서 키 목록을 가져와야 함
+                // const response = await fetch('/api/dashboard/keys', {
+                //     headers: { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` }
+                // });
+                // const data = await response.json();
+                
+                // 임시 데이터
+                apiKeys = [
+                    {
+                        id: '1',
+                        name: 'Default Key',
+                        is_active: true,
+                        created_at: '2024-01-15T10:30:00Z',
+                        last_used_at: '2024-01-20T15:45:00Z'
+                    }
+                ];
+                
+                renderApiKeys();
+                updateInstallCode();
+                
+            } catch (error) {
+                showAlert('API 키 로드 중 오류가 발생했습니다.', 'danger');
+            }
+        }
+        
+        function renderApiKeys() {
+            const container = document.getElementById('api-keys-list');
+            const activeCount = apiKeys.filter(key => key.is_active).length;
+            
+            document.getElementById('active-keys').textContent = activeCount;
+            
+            if (apiKeys.length === 0) {
+                container.innerHTML = '<p>생성된 API 키가 없습니다.</p>';
+                return;
+            }
+            
+            container.innerHTML = apiKeys.map(key => `
+                <div class="api-key-item">
+                    <div>
+                        <strong>${key.name}</strong>
+                        <br>
+                        <small>생성: ${new Date(key.created_at).toLocaleDateString()}</small>
+                        ${key.last_used_at ? `<br><small>마지막 사용: ${new Date(key.last_used_at).toLocaleDateString()}</small>` : ''}
+                    </div>
+                    <div>
+                        <span style="color: ${key.is_active ? '#28a745' : '#dc3545'};">
+                            ${key.is_active ? '활성' : '비활성'}
+                        </span>
+                        <button class="btn btn-danger" onclick="deleteApiKey('${key.id}')" style="margin-left: 10px;">
+                            삭제
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function updateInstallCode() {
+            if (apiKeys.length === 0) {
+                document.getElementById('install-code').textContent = 'API 키를 먼저 생성해주세요.';
+                return;
+            }
+            
+            const firstKey = apiKeys.find(key => key.is_active);
+            if (!firstKey) {
+                document.getElementById('install-code').textContent = '활성화된 API 키가 없습니다.';
+                return;
+            }
+            
+            const code = `<script>
+(function() {
+  const script = document.createElement('script');
+  script.src = 'https://widget-seven-taupe.vercel.app/public/loader.js';
+  script.setAttribute('data-api-key', 'fck_your_api_key_here');
+  document.head.appendChild(script);
+})();
+</script>`;
+            
+            document.getElementById('install-code').textContent = code;
+        }
+        
+        function showCreateKeyModal() {
+            document.getElementById('create-key-modal').style.display = 'block';
+        }
+        
+        function closeModal() {
+            document.getElementById('create-key-modal').style.display = 'none';
+            document.getElementById('key-name').value = '';
+        }
+        
+        async function createApiKey(event) {
+            event.preventDefault();
+            
+            const keyName = document.getElementById('key-name').value;
+            
+            try {
+                // 실제로는 API 호출
+                // const response = await fetch('/api/dashboard/keys', {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //         'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                //     },
+                //     body: JSON.stringify({ name: keyName })
+                // });
+                
+                // 임시로 새 키 추가
+                const newKey = {
+                    id: Date.now().toString(),
+                    name: keyName,
+                    is_active: true,
+                    created_at: new Date().toISOString(),
+                    last_used_at: null
+                };
+                
+                apiKeys.push(newKey);
+                renderApiKeys();
+                updateInstallCode();
+                closeModal();
+                
+                showAlert(`API 키 "${keyName}"이 생성되었습니다.`, 'success');
+                
+            } catch (error) {
+                showAlert('API 키 생성 중 오류가 발생했습니다.', 'danger');
+            }
+        }
+        
+        async function deleteApiKey(keyId) {
+            if (!confirm('정말로 이 API 키를 삭제하시겠습니까?')) {
+                return;
+            }
+            
+            try {
+                // 실제로는 API 호출
+                // await fetch(`/api/dashboard/keys?keyId=${keyId}`, {
+                //     method: 'DELETE',
+                //     headers: { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` }
+                // });
+                
+                apiKeys = apiKeys.filter(key => key.id !== keyId);
+                renderApiKeys();
+                updateInstallCode();
+                
+                showAlert('API 키가 삭제되었습니다.', 'success');
+                
+            } catch (error) {
+                showAlert('API 키 삭제 중 오류가 발생했습니다.', 'danger');
+            }
+        }
+        
+        function copyInstallCode() {
+            const code = document.getElementById('install-code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                showAlert('설치 코드가 클립보드에 복사되었습니다!', 'success');
+            });
+        }
+        
+        function showAlert(message, type) {
+            const container = document.getElementById('alert-container');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            
+            container.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+        
+        function logout() {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('user_email');
+            window.location.href = '/';
+        }
+        
+        // 모달 외부 클릭 시 닫기
+        window.onclick = function(event) {
+            const modal = document.getElementById('create-key-modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
