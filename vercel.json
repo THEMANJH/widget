@@ -1,9 +1,4 @@
 {
-  "functions": {
-    "api/**/*.js": {
-      "runtime": "nodejs18.x"
-    }
-  },
   "rewrites": [
     {
       "source": "/",
@@ -12,6 +7,10 @@
     {
       "source": "/dashboard",
       "destination": "/public/dashboard.html"
+    },
+    {
+      "source": "/test",
+      "destination": "/public/test.html"
     }
   ]
 }
